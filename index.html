@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#2e7d32">
+  <meta name="description" content="Suivi Matériel Travailleurs">
+  <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <title>Su-Ma-Tra</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="main-content">
+    <!-- Tab Quotidien -->
+    <section id="tab-quotidien" class="tab-content">
+      <div class="tab-header">
+        <div class="field-group">
+          <label>Atelier</label>
+          <select id="select-atelier"></select>
+        </div>
+        <div class="field-group">
+          <label>Date</label>
+          <div class="date-nav">
+            <button id="btn-date-prev" class="btn-date-arrow">&#8592;</button>
+            <button id="btn-date-nav" class="btn-date"></button>
+            <button id="btn-date-next" class="btn-date-arrow">&#8594;</button>
+          </div>
+      </div>
+      </div>
+      <div id="liste-travailleurs-quotidien"></div>
+    </section>
+
+    <!-- Tab Calendrier -->
+    <section id="tab-calendrier" class="tab-content">
+      <div class="tab-header">
+        <div class="field-group">
+          <label>Sélectionner un matériel</label>
+          <select id="select-materiel-calendrier"></select>
+        </div>
+        <button class="btn-secondary btn-large" id="btn-share-calendrier">📤 Partager le calendrier</button>
+      </div>
+      <div id="liste-calendrier"></div>
+    </section>
+
+    <!-- Tab Matériels -->
+    <section id="tab-machines" class="tab-content">
+      <div class="tab-header">
+        <button class="btn-primary btn-large" id="btn-add-machine">+ Ajouter un matériel</button>
+      </div>
+      <div id="liste-machines"></div>
+    </section>
+
+    <!-- Tab Travailleurs -->
+    <section id="tab-travailleurs" class="tab-content">
+      <div class="tab-header">
+        <button class="btn-primary btn-large" id="btn-add-travailleur">+ Ajouter un travailleur</button>
+        <button class="btn-secondary btn-large" id="btn-add-stagiaire">+ Ajouter un stagiaire</button>
+      </div>
+      <div id="liste-travailleurs"></div>
+    </section>
+
+    <!-- Tab Paramètres -->
+    <section id="tab-parametres" class="tab-content">
+      <div class="params-section">
+        <h2>Configuration</h2>
+        <div class="field-group">
+          <label>Nom de l'atelier</label>
+          <input type="text" id="input-atelier-nom" placeholder="Ex: Espaces Verts">
+        </div>
+        <div class="field-group">
+          <label>Nom du/de la moniteur (trice)</label>
+          <input type="text" id="input-moniteur-nom" placeholder="Ex: Martin Sophie">
+        </div>
+        <button class="btn-primary btn-large" id="btn-save-config">💾 Sauvegarder</button>
+      </div>
+
+      <div class="params-section">
+        <h2>Export Excel</h2>
+        <button class="btn-primary btn-large" id="btn-export-all">📤 Exporter tous les travailleurs</button>
+        <button class="btn-secondary btn-large" id="btn-export-one">📤 Exporter un travailleur</button>
+      </div>
+
+      <div class="params-section">
+        <h2>Import Excel</h2>
+        <button class="btn-primary btn-large" id="btn-import-files">📥 Charger des fichiers travailleurs</button>
+        <input type="file" id="input-import-files" accept=".xlsx" multiple style="display:none">
+      </div>
+
+      <!-- Partage atelier -->
+      <div class="params-section">
+        <h2>Partage atelier</h2>
+        <p class="params-desc">
+          Partagez la liste des travailleurs et des matériels avec vos collègues.<br>
+          <em>Le journal (historique des saisies) n'est pas inclus — utilisez l'export Excel pour cela.</em>
+        </p>
+        <button class="btn-primary btn-large" id="btn-export-atelier">📤 Exporter la configuration atelier</button>
+        <button class="btn-secondary btn-large" id="btn-import-atelier">📥 Importer une configuration atelier</button>
+        <input type="file" id="input-import-atelier" accept=".json" style="display:none">
+      </div>
+
+      <div class="params-section">
+        <h2>Apparence</h2>
+        <button class="btn-toggle-theme btn-large" id="btn-theme">🌙 Mode sombre</button>
+
+        <div class="shortcuts-info">
+          <h3>Raccourcis clavier</h3>
+          <table class="shortcuts-table">
+            <tbody>
+              <tr>
+                <td><kbd>Échap</kbd></td>
+                <td>Fermer une fenêtre / Annuler</td>
+              </tr>
+              <tr>
+                <td><kbd>Entrée</kbd></td>
+                <td>Champ suivant ou Valider (dans une fenêtre)</td>
+              </tr>
+              <tr>
+                <td><kbd>Alt</kbd> + <kbd>← (Flèche clavier Gauche)</kbd></td>
+                <td>Jour précédent (onglet Quotidien)</td>
+              </tr>
+              <tr>
+                <td><kbd>Alt</kbd> + <kbd>→ (Flèche clavier Droite)</kbd></td>
+                <td>Jour suivant (onglet Quotidien)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <footer class="app-footer">
+        <p>Copyright © 2026 — LEROY Aurélien — Tous droits réservés.</p>
+        <p class="disclaimer">Cette application est fournie à titre d'outil de suivi interne. L'auteur décline toute responsabilité quant à l'usage des données saisies, leur conservation ou leur conformité aux obligations légales en vigueur.</p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Navigation Bottom -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-tab="quotidien">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">Quotidien</span>
+    </div>
+    <div class="nav-item" data-tab="calendrier">
+      <span class="nav-icon">📆</span>
+      <span class="nav-label">Calendrier</span>
+    </div>
+    <div class="nav-item" data-tab="machines">
+      <span class="nav-icon">🔧</span>
+      <span class="nav-label">Matériels</span>
+    </div>
+    <div class="nav-item" data-tab="travailleurs">
+      <span class="nav-icon">👥</span>
+      <span class="nav-label">Travailleurs</span>
+    </div>
+    <div class="nav-item" data-tab="parametres">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">Paramètres</span>
+    </div>
+  </nav>
+
+  <!-- Modal container -->
+  <div id="modal-container"></div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="libs/exceljs.min.js"></script>
+  <script src="libs/chart.umd.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/keyboard.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/quotidien.js"></script>
+  <script src="js/calendrier.js"></script>
+  <script src="js/machines.js"></script>
+  <script src="js/travailleurs.js"></script>
+  <script src="js/parametres.js"></script>
+  <script src="js/excel.js"></script>
+  <script src="js/import.js"></script>
+  <script src="js/graphiques.js"></script> 
+</body>
+</html>

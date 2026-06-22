@@ -1,0 +1,23 @@
+{
+  "name": "Su-Mat-Tra",
+  "short_name": "Su-Mat-Tra",
+  "description": "Suivi Matériel Travailleurs",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#2e7d32",
+  "orientation": "portrait-primary",
+  "icons": [
+  {
+    "src": "icons/icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  },
+  {
+    "src": "icons/icon-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }
+]
+}
+
