@@ -10,6 +10,7 @@
   <title>Su-Ma-Tra</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sync.css">
 </head>
 <body>
   <main class="main-content">
@@ -27,7 +28,7 @@
             <button id="btn-date-nav" class="btn-date"></button>
             <button id="btn-date-next" class="btn-date-arrow">&#8594;</button>
           </div>
-      </div>
+        </div>
       </div>
       <div id="liste-travailleurs-quotidien"></div>
     </section>
@@ -63,6 +64,7 @@
 
     <!-- Tab Paramètres -->
     <section id="tab-parametres" class="tab-content">
+
       <div class="params-section">
         <h2>Configuration</h2>
         <div class="field-group">
@@ -100,6 +102,71 @@
         <input type="file" id="input-import-atelier" accept=".json" style="display:none">
       </div>
 
+      <!-- -------------------------------------------------- -->
+      <!-- SYNCHRONISATION ENTRE APPAREILS MOBILES            -->
+      <!-- -------------------------------------------------- -->
+      <div class="params-section">
+        <h2>🔄 Synchronisation entre mobiles</h2>
+
+        <!-- Explication visuelle -->
+        <div class="sync-explainer">
+          <div class="sync-explainer-schema">
+            <div class="sync-explainer-device">
+              <span class="sync-explainer-icon">📱</span>
+              <span class="sync-explainer-label">Mobile A</span>
+            </div>
+            <div class="sync-explainer-arrow">
+              <span class="sync-explainer-arrow-line"></span>
+              <span class="sync-explainer-arrow-text">QR Code</span>
+              <span class="sync-explainer-arrow-line"></span>
+            </div>
+            <div class="sync-explainer-device">
+              <span class="sync-explainer-icon">📱</span>
+              <span class="sync-explainer-label">Mobile B</span>
+            </div>
+          </div>
+
+          <p class="sync-explainer-desc">
+            Cette fonction permet de <strong>fusionner les saisies</strong> effectuées sur
+            plusieurs téléphones ou tablettes, afin que chaque appareil dispose
+            de <strong>toutes les données à jour</strong>.
+          </p>
+
+          <div class="sync-explainer-steps">
+            <div class="sync-step">
+              <span class="sync-step-num">1</span>
+              <span class="sync-step-text">L'appareil A génère un <strong>QR code</strong></span>
+            </div>
+            <div class="sync-step">
+              <span class="sync-step-num">2</span>
+              <span class="sync-step-text">L'appareil B le <strong>scanne</strong> avec sa caméra</span>
+            </div>
+            <div class="sync-step">
+              <span class="sync-step-num">3</span>
+              <span class="sync-step-text">Un second QR confirme la <strong>connexion directe</strong></span>
+            </div>
+            <div class="sync-step">
+              <span class="sync-step-num">4</span>
+              <span class="sync-step-text">Les données se <strong>fusionnent automatiquement</strong></span>
+            </div>
+          </div>
+
+          <div class="sync-explainer-note">
+            <span class="sync-explainer-note-icon">💡</span>
+            <div>
+              <strong>Fonctionne sans internet</strong> — un appareil active son
+              <strong>point d'accès mobile (hotspot)</strong>, l'autre s'y connecte,
+              puis la synchronisation se lance. Idéal sur chantier, en atelier,
+              partout sans réseau.<br><br>
+              <strong>Pour récupérer les données sur un PC</strong>, utilisez l'export
+              <em>Excel</em> ou <em>JSON</em> disponibles ci-dessus, et partagez le par e-mail.
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary btn-large" id="btn-ouvrir-sync">🔄 Synchroniser avec un autre appareil</button>
+      </div>
+
       <div class="params-section">
         <h2>Apparence</h2>
         <button class="btn-toggle-theme btn-large" id="btn-theme">🌙 Mode sombre</button>
@@ -133,6 +200,7 @@
         <p>Copyright © 2026 — LEROY Aurélien — Tous droits réservés.</p>
         <p class="disclaimer">Cette application est fournie à titre d'outil de suivi interne. L'auteur décline toute responsabilité quant à l'usage des données saisies, leur conservation ou leur conformité aux obligations légales en vigueur.</p>
       </footer>
+
     </section>
   </main>
 
@@ -169,6 +237,8 @@
   <!-- Scripts -->
   <script src="libs/exceljs.min.js"></script>
   <script src="libs/chart.umd.js"></script>
+  <script src="libs/qrcode.min.js"></script>
+  <script src="libs/jsQR.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/db.js"></script>
   <script src="js/keyboard.js"></script>
@@ -180,6 +250,8 @@
   <script src="js/parametres.js"></script>
   <script src="js/excel.js"></script>
   <script src="js/import.js"></script>
-  <script src="js/graphiques.js"></script> 
+  <script src="js/graphiques.js"></script>
+  <script src="js/sync-webrtc.js"></script>
+  <script src="js/sync-ui.js"></script>
 </body>
 </html>

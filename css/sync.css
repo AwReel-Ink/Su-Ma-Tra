@@ -1,0 +1,450 @@
+/* ============================================================
+   sync.css — Styles du module de synchronisation Su-Ma-Tra
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   OVERLAY & MODAL
+   ---------------------------------------------------------- */
+#sync-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  animation: sync-fade-in 0.2s ease;
+}
+
+#sync-modal {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  width: min(92vw, 480px);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: sync-slide-up 0.25s ease;
+}
+
+#sync-btn-fermer {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  color: #333;
+}
+#sync-btn-fermer:hover { background: #e0e0e0; }
+
+/* ----------------------------------------------------------
+   ÉCRANS COMMUNS
+   ---------------------------------------------------------- */
+.sync-ecran {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.sync-icone {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.sync-titre {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.sync-desc {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 380px;
+}
+
+.sync-note {
+  font-size: 0.85rem;
+  color: #888;
+  background: #f8f9ff;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* ----------------------------------------------------------
+   BOUTONS RÔLE
+   ---------------------------------------------------------- */
+.sync-roles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.sync-role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 1rem 1.2rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 14px;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  width: 100%;
+}
+.sync-role-btn:hover {
+  border-color: #4a6fa5;
+  background: #f0f4ff;
+  transform: translateY(-2px);
+}
+.sync-role-btn:active { transform: translateY(0); }
+
+.sync-role-icone {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.sync-role-nom {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.sync-role-desc {
+  font-size: 0.82rem;
+  color: #888;
+}
+
+/* ----------------------------------------------------------
+   BOUTONS ACTIONS
+   ---------------------------------------------------------- */
+.sync-btn-principal {
+  background: #4a6fa5;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  width: 100%;
+}
+.sync-btn-principal:hover  { background: #3a5f95; transform: translateY(-1px); }
+.sync-btn-principal:active { transform: translateY(0); }
+
+.sync-btn-secondaire {
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  width: 100%;
+}
+.sync-btn-secondaire:hover { background: #f5f5f5; color: #333; }
+
+/* ----------------------------------------------------------
+   QR CODE
+   ---------------------------------------------------------- */
+#sync-qr-container {
+  background: #fff;
+  border: 3px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+#sync-qr-canvas {
+  display: block;
+  border-radius: 8px;
+}
+
+.sync-qr-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+/* ----------------------------------------------------------
+   SCANNER CAMÉRA
+   ---------------------------------------------------------- */
+#sync-scanner-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#sync-scanner-viewfinder {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+}
+
+#sync-scanner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cadre viseur animé */
+.sync-scanner-cadre {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sync-scanner-cadre::before,
+.sync-scanner-cadre::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: #4af0a0;
+  border-style: solid;
+  border-width: 0;
+}
+
+/* Coins haut-gauche */
+.sync-scanner-cadre::before {
+  top: 12px;
+  left: 12px;
+  border-top-width: 4px;
+  border-left-width: 4px;
+  border-radius: 6px 0 0 0;
+}
+
+/* Coins bas-droite */
+.sync-scanner-cadre::after {
+  bottom: 12px;
+  right: 12px;
+  border-bottom-width: 4px;
+  border-right-width: 4px;
+  border-radius: 0 0 6px 0;
+}
+
+/* Ligne de scan animée */
+#sync-scanner-viewfinder::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #4af0a0, transparent);
+  animation: sync-scan-line 2s ease-in-out infinite;
+  border-radius: 2px;
+  box-shadow: 0 0 8px #4af0a0;
+}
+
+.sync-scanner-statut {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+  min-height: 1.2em;
+}
+
+/* ----------------------------------------------------------
+   SPINNER
+   ---------------------------------------------------------- */
+.sync-spinner {
+  width: 52px;
+  height: 52px;
+  border: 5px solid #e8edf5;
+  border-top-color: #4a6fa5;
+  border-radius: 50%;
+  animation: sync-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------
+   BARRE DE PROGRESSION
+   ---------------------------------------------------------- */
+.sync-progress-wrapper {
+  width: 100%;
+  height: 12px;
+  background: #e8edf5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.sync-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4a6fa5, #4af0a0);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+  position: relative;
+  /* Reflet animé */
+  overflow: hidden;
+}
+
+.sync-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: sync-progress-shine 1.5s ease-in-out infinite;
+}
+
+.sync-progress-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a6fa5;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------
+   SUCCÈS
+   ---------------------------------------------------------- */
+.sync-ecran-succes .sync-icone-succes {
+  font-size: 4rem;
+  animation: sync-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sync-stats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #f0f7f0;
+  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
+  width: 100%;
+  text-align: left;
+}
+
+.sync-stats li {
+  font-size: 0.92rem;
+  color: #444;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #ddeedd;
+}
+
+.sync-stats li:last-child { border-bottom: none; }
+
+.sync-stats strong {
+  color: #2d7a2d;
+  font-size: 1.1rem;
+}
+
+/* ----------------------------------------------------------
+   ERREUR
+   ---------------------------------------------------------- */
+.sync-ecran-erreur .sync-icone-erreur {
+  font-size: 3.5rem;
+  animation: sync-shake 0.4s ease;
+}
+
+.sync-erreur-msg {
+  background: #fff0f0;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  color: #c0392b;
+  font-size: 0.88rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sync-erreur-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+/* ----------------------------------------------------------
+   ANIMATIONS
+   ---------------------------------------------------------- */
+@keyframes sync-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes sync-slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes sync-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sync-scan-line {
+  0%   { top: 12px;  opacity: 1; }
+  50%  { top: calc(100% - 14px); opacity: 1; }
+  100% { top: 12px;  opacity: 1; }
+}
+
+@keyframes sync-progress-shine {
+  0%   { left: -100%; }
+  100% { left: 200%;  }
+}
+
+@keyframes sync-pop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes sync-shake {
+  0%, 100% { transform: translateX(0);    }
+  25%       { transform: translateX(-8px); }
+  75%       { transform: translateX(8px);  }
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE MOBILE
+   ---------------------------------------------------------- */
+@media (max-width: 480px) {
+  #sync-modal {
+    padding: 1.5rem 1rem;
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+    max-height: 95vh;
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+  }
+
+  #sync-overlay {
+    align-items: flex-end;
+  }
+
+  #sync-scanner-viewfinder {
+    width: 220px;
+    height: 220px;
+  }
+}
