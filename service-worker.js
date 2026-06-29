@@ -3,7 +3,7 @@
  * Stratégie: Cache First pour les assets locaux
  */
 
-const CACHE_NAME = 'sumattra-v1';
+const CACHE_NAME = 'sumattra-v1.01';
 const ASSETS_TO_CACHE = [
   './index.html',
   './css/style.css',
