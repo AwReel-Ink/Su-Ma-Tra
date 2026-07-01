@@ -860,13 +860,7 @@
                 { key: 'pctSans',  width: 20 },
                 { key: 'pctAvec',  width: 20 }
               ];
-
-              sheetGraph.columns = [
-                { key: 'machine', width: 30 },
-                { key: 'minutes', width: 12 },
-                { key: 'pct',     width: 22 }
-              ];
-
+              
               resolve();
             });
           });
