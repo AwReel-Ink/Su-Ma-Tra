@@ -61,40 +61,41 @@
           
           var workbook = new ExcelJS.Workbook();
           workbook.xlsx.load(data).then(function() {
+
             // === Étape 1: Lire les infos du travailleur ===
             var sheetInfos = workbook.getWorksheet('INFORMATIONS TRAVAILLEUR');
             var workerInfo = null;
-            
+
             if (sheetInfos) {
               var nom = '', prenom = '', dateDistinctive = '', type = 'travailleur';
-              
+
               sheetInfos.eachRow(function(row, rowNum) {
                 if (rowNum === 1) return; // Ignorer le titre
                 var key = row.getCell(1).value;
                 var value = row.getCell(2).value;
-                
+
                 if (key === 'Nom:') nom = value || '';
                 if (key === 'Prénom:') prenom = value || '';
-                if (key === 'Date distinctive:') dateDistinctive = value || '';
+                if (key === 'Date distinctive:') dateDistinctive = ImportModule.normalizeDate(value);
                 if (key === 'Type:') type = (value && value.toLowerCase().includes('stagiaire')) ? 'stagiaire' : 'travailleur';
               });
-              
+
               workerInfo = { nom: nom, prenom: prenom, date_distinctive: dateDistinctive, type: type };
             }
-            
+
             // === Étape 2: Lire le journal ===
             var sheetJournal = workbook.getWorksheet('JOURNAL');
             var entries = [];
-            
+
             if (sheetJournal) {
               sheetJournal.eachRow(function(row, rowNum) {
                 if (rowNum === 1) return; // Ignorer l'en-tête
                 var cells = row.values;
-                
+
                 if (cells[1]) { // Date
                   entries.push({
                     uuid_travailleur: '', // Sera rempli après
-                    date: cells[1],
+                    date: ImportModule.normalizeDate(cells[1]),
                     atelier: cells[2] || '',
                     machine_nom: cells[3] || '',
                     duree_minutes: typeof cells[4] === 'number' ? cells[4] : Utils.parseDuree(cells[4]),
@@ -103,14 +104,14 @@
                 }
               });
             }
-            
+
             // === Étape 3: Chercher ou créer le travailleur ===
             ImportModule.findOrCreateTravailleur(workerInfo).then(function(uuid) {
               // Mettre à jour les entrées avec l'uuid
               entries.forEach(function(e) {
                 e.uuid_travailleur = uuid;
               });
-              
+
               // === Étape 4: Fusionner les entrées ===
               DB.mergeJournalEntries(entries).then(function(addedCount) {
                 resolve({
@@ -122,10 +123,26 @@
             });
           }).catch(reject);
         };
-        
+
         reader.onerror = reject;
         reader.readAsArrayBuffer(file);
       });
+    },
+
+    /**
+     * Normalise une date (objet Date ou string) au format YYYY-MM-DD
+     * @param {Date|string} value - Valeur brute de la cellule Excel
+     * @returns {string}
+     */
+    normalizeDate: function(value) {
+      if (!value) return '';
+      if (value instanceof Date) {
+        var y = value.getFullYear();
+        var m = String(value.getMonth() + 1).padStart(2, '0');
+        var d = String(value.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + d;
+      }
+      return String(value).trim();
     },
 
     /**
