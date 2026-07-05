@@ -76,7 +76,7 @@
 
                 if (key === 'Nom:') nom = value || '';
                 if (key === 'Prénom:') prenom = value || '';
-                if (key === 'Date distinctive:') dateDistinctive = ImportModule.normalizeDate(value);
+                if (key === 'Date de naissance:') dateDistinctive = ImportModule.normalizeDate(value);
                 if (key === 'Type:') type = (value && value.toLowerCase().includes('stagiaire')) ? 'stagiaire' : 'travailleur';
               });
 
