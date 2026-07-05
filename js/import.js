@@ -63,7 +63,7 @@
           workbook.xlsx.load(data).then(function() {
 
             // === Étape 1: Lire les infos du travailleur ===
-            var sheetInfos = workbook.getWorksheet('INFORMATIONS TRAVAILLEUR');
+            var sheetInfos = workbook.worksheets[0];
             var workerInfo = null;
 
             if (sheetInfos) {
@@ -84,7 +84,10 @@
             }
 
             // === Étape 2: Lire le journal ===
-            var sheetJournal = workbook.getWorksheet('JOURNAL');
+            var sheetJournal = null;
+            workbook.worksheets.forEach(function(ws) {
+              if (ws.name.indexOf('JOURNAL') === 0) sheetJournal = ws;
+            });
             var entries = [];
 
             if (sheetJournal) {
